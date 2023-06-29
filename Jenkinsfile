@@ -7,6 +7,10 @@ pipeline {
     }
 
     stages {
+        stage('checkout')
+        {
+            checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'repopat', url: 'https://github.com/kalyaniorg1/simple-maven-project-with-tests.git']])
+        }
         stage('Build') {
 
                 // To run Maven on a Windows agent, use
