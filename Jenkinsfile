@@ -1,9 +1,18 @@
-podTemplate(containers: [containerTemplate(name: 'maven', image: 'maven', command: 'sleep', args: 'infinity')]) {
-  node(POD_LABEL) {
-    checkout scm
-    container('maven') {
-      sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M3"
     }
-    junit '**/target/surefire-reports/TEST-*.xml'
-  }
+
+    stages {
+        stage('Build') {
+
+                // To run Maven on a Windows agent, use
+                 bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+        }
+    }
 }
